@@ -116,8 +116,8 @@ canvas {
   display: none;
 }
 
-footer {
-  background: rgba(0, 0, 0, 0.7);
+.dark footer {
+  background: linear-gradient(to bottom, #0f2027, #203a43);
   color: #fff;
   text-align: center;
   padding: 15px 10px;
