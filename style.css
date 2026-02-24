@@ -1,4 +1,3 @@
-/* Body & theme */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -7,14 +6,15 @@ body {
   overflow-x: hidden;
 }
 
+/* Tema */
 .dark { background: linear-gradient(to bottom, #0f2027, #203a43); }
 .light { background: linear-gradient(to bottom, #0d6efd, #6ea8fe); }
 
-/* Header & controls */
+/* Header & Controls */
 header {
   position: sticky;
   top: 0;
-  z-index: 1001;
+  z-index: 1001;              /* pastikan tombol clickable di atas canvas */
   padding: 12px 10px;
   background: rgba(0,0,0,0.5);
   backdrop-filter: blur(10px);
@@ -36,6 +36,7 @@ input, button {
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 button {
@@ -45,30 +46,46 @@ button {
 
 button:hover { background: rgba(255,255,255,0.4); }
 
-/* Cards & forecast */
+/* Main & Cards */
 main {
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 480px;  /* supaya sama lebar dengan peta di HP */
-  margin: auto;       /* center di layar kecil */
-}
-
-.card {
-  width: 100%;        /* pastikan tidak overflow */
+  max-width: 480px;     /* sama dengan lebar radar map */
+  margin: auto;          /* center di layar kecil */
   box-sizing: border-box;
 }
 
+.card {
+  width: 100%;           /* pastikan tidak overflow */
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.2);
+}
+
+/* Forecast horizontal scroll */
 .forecast {
   display: flex;
   overflow-x: auto;
   gap: 8px;
+  width: 100%;
   padding-bottom: 10px;
-  width: 100%;        /* sesuaikan dengan container */
 }
 
-/* Radar map */
+.forecast-day {
+  min-width: 100px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  padding: 8px;
+  box-sizing: border-box;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Radar Map */
 .radar {
   position: relative;
   height: 300px;
@@ -78,8 +95,12 @@ main {
   margin: 10px 0;
 }
 
-#radarMap { height: 100%; width: 100%; }
+#radarMap {
+  height: 100%;
+  width: 100%;
+}
 
+/* Radar Controls & Legend */
 #radarControls {
   position: absolute;
   bottom: 10px;
@@ -113,8 +134,9 @@ main {
 /* Canvas hujan */
 canvas {
   position: fixed;
-  top:0; left:0;
-  pointer-events: none;
+  top:0;
+  left:0;
+  pointer-events: none;   /* supaya tombol clickable */
   z-index: 0;
   width: 100%;
   height: 100%;
@@ -123,7 +145,8 @@ canvas {
 /* Loading */
 #loading {
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: white;
   z-index: 2000;
@@ -140,4 +163,17 @@ footer {
   border-top-right-radius: 15px;
   font-size: 12px;
   margin-top: 15px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  header, main {
+    padding: 8px;
+  }
+  .forecast-day {
+    min-width: 90px;
+  }
+  button, input {
+    flex: 1 1 auto;
+  }
 }
