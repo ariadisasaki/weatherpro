@@ -5,6 +5,12 @@ let currentLang = "id";
 let map = null;
 let animationId = null;
 
+// Ambil lokasi user
+navigator.geolocation.getCurrentPosition(pos => {
+  getWeather(`${pos.coords.latitude},${pos.coords.longitude}`);
+});
+
+// Ambil cuaca
 async function getWeather(query) {
   try {
     const res = await fetch(`${BASE_URL}&key=${API_KEY}&q=${query}&lang=${currentLang}`);
@@ -25,6 +31,7 @@ async function getWeather(query) {
   }
 }
 
+// Tampilkan cuaca
 function displayWeather(data) {
   const c = data.current;
   const l = data.location;
@@ -56,6 +63,7 @@ function displayWeather(data) {
   document.getElementById("forecast").innerHTML = html;
 }
 
+// Theme
 function setTheme(localtime) {
   const hour = parseInt(localtime.split(" ")[1].split(":")[0]);
   document.body.classList.remove("dark", "light");
@@ -67,82 +75,23 @@ function setTheme(localtime) {
   }
 }
 
-function setBackground(condition) {
-  clearAnimation();
-
-  if(condition.toLowerCase().includes("rain")) {
-    rainAnimation();
-  }
-}
-
-function searchCity() {
-  const city = document.getElementById("cityInput").value;
-  if(city) getWeather(city);
-}
-
-function toggleLang() {
-  currentLang = currentLang === "id" ? "en" : "id";
-  searchCity();
-}
-
-navigator.geolocation.getCurrentPosition(pos => {
-  getWeather(`${pos.coords.latitude},${pos.coords.longitude}`);
-});
-
-/* =====================
-   RADAR MAP STABLE
-===================== */
-function initRadar(lat, lon) {
-
-  const container = document.getElementById("radarMap");
-  container.innerHTML = "";
-
-  if (map) {
-    map.remove();
-    map = null;
-  }
-
-  map = L.map("radarMap").setView([lat, lon], 6);
-
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 18
-  }).addTo(map);
-
-  L.tileLayer(
-    "https://tilecache.rainviewer.com/v2/radar/latest/256/{z}/{x}/{y}/2/1_1.png",
-    { opacity: 0.6 }
-  ).addTo(map);
-
-  L.marker([lat, lon]).addTo(map);
-
-  setTimeout(() => {
-    map.invalidateSize(true);
-  }, 400);
-}
-
-window.addEventListener("resize", () => {
-  if (map) {
-    setTimeout(() => map.invalidateSize(true), 200);
-  }
-});
-
-/* =====================
-   RAIN ANIMATION SAFE
-===================== */
+// Animasi background
 const canvas = document.getElementById("weatherCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+function setBackground(condition) {
+  clearAnimation();
+  if(condition.toLowerCase().includes("rain")) rainAnimation();
+}
+
 function rainAnimation() {
-
   if (animationId) cancelAnimationFrame(animationId);
-
   let drops = [];
   for(let i=0;i<200;i++){
     drops.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
   }
-
   function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle="rgba(255,255,255,0.5)";
@@ -161,9 +110,25 @@ function clearAnimation(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 }
 
-/* =====================
-   PWA
-===================== */
+// Pencarian dan toggle bahasa
+function searchCity() {
+  const city = document.getElementById("cityInput").value;
+  if(city) getWeather(city);
+}
+
+function toggleLang() {
+  currentLang = currentLang === "id" ? "en" : "id";
+  searchCity();
+}
+
+// Resize canvas & map
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  if (map) setTimeout(() => map.invalidateSize(true), 200);
+});
+
+// PWA
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
