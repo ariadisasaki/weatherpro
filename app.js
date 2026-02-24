@@ -8,23 +8,28 @@ const BASE_URL = "https://api.weatherapi.com/v1/forecast.json?days=7&aqi=no&aler
 let currentLang = "id";
 let animationId = null;
 
+// Loading indicator
+function showLoading() { document.getElementById("loading").style.display = "block"; }
+function hideLoading() { document.getElementById("loading").style.display = "none"; }
+
 // Ambil lokasi user otomatis
 navigator.geolocation.getCurrentPosition(pos => {
   getWeather(`${pos.coords.latitude},${pos.coords.longitude}`);
+}, err => {
+  console.warn(err);
+  getWeather("Jakarta"); // fallback kota
 });
 
 // =====================
 // AMBIL DATA CUACA
 // =====================
 async function getWeather(query) {
+  showLoading();
   try {
     const res = await fetch(`${BASE_URL}&key=${API_KEY}&q=${query}&lang=${currentLang}`);
     const data = await res.json();
 
-    if (data.error) {
-      alert("Kota tidak ditemukan");
-      return;
-    }
+    if (data.error) { alert("Kota tidak ditemukan"); return; }
 
     displayWeather(data);
     setTheme(data.location.localtime);
@@ -36,6 +41,8 @@ async function getWeather(query) {
   } catch (err) {
     alert("Gagal mengambil data cuaca");
     console.error(err);
+  } finally {
+    hideLoading();
   }
 }
 
@@ -97,8 +104,10 @@ function setBackground(condition) {
 
 function rainAnimation() {
   if (animationId) cancelAnimationFrame(animationId);
+
+  const dropsCount = window.innerWidth < 768 ? 100 : 200;
   let drops = [];
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < dropsCount; i++) {
     drops.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height });
   }
 
