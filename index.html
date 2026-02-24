@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d6efd">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1 id="appTitle">🌤 Weather Pro</h1>
+  <div class="controls">
+    <input type="text" id="cityInput" placeholder="Cari kota...">
+    <button onclick="searchCity()">🔍</button>
+    <button onclick="toggleLang()">🌐</button>
+  </div>
+</header>
+
+<main>
+  <div id="currentWeather" class="card"></div>
+  <div id="forecast" class="forecast"></div>
+  <div id="radarMap" class="radar"></div>
+</main>
+
+<canvas id="weatherCanvas"></canvas>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="radar.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
