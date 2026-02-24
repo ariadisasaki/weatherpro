@@ -8,7 +8,11 @@ function showLoading(){ document.getElementById("loading").style.display="block"
 function hideLoading(){ document.getElementById("loading").style.display="none"; }
 
 // Toggle bilingual
-function toggleLang(){ currentLang = currentLang==="id"?"en":"id"; searchCity(); }
+// app.js
+function toggleLang() {
+  currentLang = currentLang === "id" ? "en" : "id";
+  searchCity(); // lakukan request ulang
+}
 
 // Geolocation
 navigator.geolocation.getCurrentPosition(
