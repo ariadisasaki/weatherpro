@@ -115,3 +115,23 @@ canvas {
   z-index: 2000;
   display: none;
 }
+
+/* FOOTER DEVELOPER */
+.footer {
+  margin-top: auto;
+  padding: 18px;
+  font-size:14px;
+  color:#94a3b8;
+  border-top:1px solid #334155;
+}
+
+.developer-link {
+  color:#38bdf8;
+  text-decoration:none;
+  font-weight:500;
+  transition:0.3s ease;
+}
+.developer-link:hover {
+  color:#7dd3fc;
+  text-decoration:underline;
+}
