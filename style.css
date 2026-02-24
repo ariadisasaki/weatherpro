@@ -59,11 +59,13 @@ input, button {
   margin: 20px auto;
   border-radius: 20px;
   overflow: hidden;
+  position: relative; /* 🔥 WAJIB */
 }
 
 #radarMap {
   height: 100%;
   width: 100%;
+  position: relative; /* 🔥 WAJIB */
 }
 
 canvas {
@@ -78,25 +80,25 @@ canvas {
   bottom: 10px;
   left: 10px;
   right: 10px;
-  background: rgba(0,0,0,0.6);
-  padding: 10px;
+  background: rgba(0,0,0,0.75);
+  padding: 12px;
   border-radius: 12px;
   color: white;
   font-size: 12px;
+  z-index: 1000; /* 🔥 supaya tidak ketutup tile */
 }
 
-#radarControls button {
-  padding: 5px 10px;
-  margin-bottom: 5px;
-}
-
-#radarControls input[type=range] {
-  width: 100%;
+.legend {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
 }
 
 .legend span {
   display: inline-block;
   width: 15px;
   height: 10px;
-  margin: 0 3px;
+  margin-right: 5px;
+  border-radius: 3px;
 }
