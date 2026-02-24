@@ -71,3 +71,31 @@ navigator.geolocation.getCurrentPosition(pos => {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
+
+const canvas = document.getElementById("weatherCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function rainAnimation() {
+  let drops = [];
+  for(let i=0;i<200;i++){
+    drops.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="rgba(255,255,255,0.5)";
+    drops.forEach(d=>{
+      ctx.fillRect(d.x,d.y,2,10);
+      d.y+=10;
+      if(d.y>canvas.height)d.y=0;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function clearAnimation(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+}
