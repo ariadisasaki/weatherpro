@@ -7,11 +7,14 @@
   <meta name="theme-color" content="#0d6efd">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
 
 <header>
-  <h1 id="appTitle">🌤 Weather Pro</h1>
+  <h1>🌤 Weather Pro</h1>
   <div class="controls">
     <input type="text" id="cityInput" placeholder="Cari kota...">
     <button onclick="searchCity()">🔍</button>
@@ -20,16 +23,19 @@
 </header>
 
 <main>
+  <div id="widget" class="card"></div>
   <div id="currentWeather" class="card"></div>
   <div id="forecast" class="forecast"></div>
-  <div id="radarMap" class="radar"></div>
+
+  <div class="radar">
+    <div id="radarMap"></div>
+  </div>
 </main>
 
 <canvas id="weatherCanvas"></canvas>
-<div id="widget" class="card"></div> 
 
+<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="radar.js"></script>
 <script src="app.js"></script>
 
 </body>
