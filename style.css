@@ -59,7 +59,6 @@ input, button {
   margin: 20px auto;
   border-radius: 20px;
   overflow: hidden;
-  position: relative;
 }
 
 #radarMap {
