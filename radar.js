@@ -1,21 +1,49 @@
-let map;
+let map = null;
+let radarLayer = null;
 
 function initRadar(lat, lon) {
 
-  const container = L.DomUtil.get('radarMap');
-  if(container != null){
-    container._leaflet_id = null;
+  const mapContainer = document.getElementById("radarMap");
+
+  // Bersihkan container total
+  mapContainer.innerHTML = "";
+
+  if (map !== null) {
+    map.remove();
+    map = null;
   }
 
-  map = L.map('radarMap').setView([lat, lon], 7);
+  map = L.map("radarMap", {
+    center: [lat, lon],
+    zoom: 6,
+    zoomControl: true
+  });
 
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png')
-    .addTo(map);
+  // Base map
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18
+  }).addTo(map);
 
-  L.tileLayer(
-    'https://tilecache.rainviewer.com/v2/radar/latest/256/{z}/{x}/{y}/2/1_1.png',
-    { opacity: 0.6 }
+  // Radar layer
+  radarLayer = L.tileLayer(
+    "https://tilecache.rainviewer.com/v2/radar/latest/256/{z}/{x}/{y}/2/1_1.png",
+    {
+      opacity: 0.6
+    }
   ).addTo(map);
 
-  setTimeout(() => map.invalidateSize(), 500);
+  // Marker lokasi
+  L.marker([lat, lon]).addTo(map);
+
+  // 🔥 SUPER FIX
+  setTimeout(() => {
+    map.invalidateSize(true);
+  }, 500);
+
+  // Resize fix jika window berubah
+  window.addEventListener("resize", () => {
+    setTimeout(() => {
+      map.invalidateSize(true);
+    }, 200);
+  });
 }
