@@ -3,41 +3,34 @@ let radarLayers = [];
 let frameIndex = 0;
 let animationTimer = null;
 
+// Init Radar
 async function initRadar(lat, lon) {
-
-  // Reset map
   const container = document.getElementById("radarMap");
   container.innerHTML = "";
 
-  if (map) {
+  if(map) {
     map.remove();
     map = null;
   }
 
   map = L.map("radarMap").setView([lat, lon], 6);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 18
-  }).addTo(map);
+  // Base tile
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18 }).addTo(map);
 
   L.marker([lat, lon]).addTo(map);
 
-  // Ambil data frame radar
+  // Ambil data radar
   const res = await fetch("https://api.rainviewer.com/public/weather-maps.json");
   const data = await res.json();
+  const frames = data.radar.past.slice(-10);
 
-  const frames = data.radar.past.slice(-10); // 10 frame terakhir
   radarLayers = [];
-
   frames.forEach(frame => {
-    const layer = L.tileLayer(
-      `https://tilecache.rainviewer.com${frame.path}/256/{z}/{x}/{y}/2/1_1.png`,
-      { opacity: 0 }
-    );
+    const layer = L.tileLayer(`https://tilecache.rainviewer.com${frame.path}/256/{z}/{x}/{y}/2/1_1.png`, { opacity: 0 });
     radarLayers.push(layer);
+    layer.addTo(map);
   });
-
-  radarLayers.forEach(layer => layer.addTo(map));
 
   frameIndex = 0;
   showFrame(frameIndex);
@@ -47,15 +40,15 @@ async function initRadar(lat, lon) {
 }
 
 function showFrame(index) {
-  radarLayers.forEach((layer, i) => {
-    layer.setOpacity(i === index ? 0.7 : 0);
-  });
+  radarLayers.forEach((layer,i) => layer.setOpacity(i===index ? 0.7 : 0));
 }
 
 function startAnimation() {
   animationTimer = setInterval(() => {
-    frameIndex = (frameIndex + 1) % radarLayers.length;
+    frameIndex = (frameIndex+1) % radarLayers.length;
     showFrame(frameIndex);
+    const slider = document.getElementById("timeline");
+    if(slider) slider.value = frameIndex;
   }, 700);
 }
 
@@ -63,8 +56,13 @@ function stopAnimation() {
   clearInterval(animationTimer);
 }
 
-function createControls(frames) {
+function toggleAnimation() {
+  if(animationTimer) { stopAnimation(); animationTimer=null; }
+  else startAnimation();
+}
 
+// Legend & controls
+function createControls(frames) {
   const controls = document.createElement("div");
   controls.id = "radarControls";
   controls.innerHTML = `
@@ -77,23 +75,12 @@ function createControls(frames) {
       <span style="background:red"></span> Sangat Lebat
     </div>
   `;
-
   document.getElementById("radarMap").appendChild(controls);
 
   const slider = document.getElementById("timeline");
-
   slider.addEventListener("input", e => {
     stopAnimation();
     frameIndex = parseInt(e.target.value);
     showFrame(frameIndex);
   });
-}
-
-function toggleAnimation() {
-  if (animationTimer) {
-    stopAnimation();
-    animationTimer = null;
-  } else {
-    startAnimation();
-  }
 }
