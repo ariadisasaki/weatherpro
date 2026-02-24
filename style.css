@@ -116,17 +116,18 @@ canvas {
   display: none;
 }
 
-.dark footer {
-  background: linear-gradient(to bottom, #0f2027, #203a43);
-  color: #fff;
+footer {
+  background: transparent;   /* tidak ada background */
+  color: #ffffff;
   text-align: center;
-  padding: 15px 10px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  padding: 30px 15px;        /* tambah padding agar tidak menempel */
   font-size: 13px;
-  position: relative;
-  z-index: 1000;
-  margin-top: 20px;
+  margin-top: 40px;          /* beri jarak dari konten atas */
+  line-height: 1.6;          /* agar teks lebih lega */
+}
+
+footer {
+  padding-bottom: 50px;
 }
 
 footer .footer-content {
