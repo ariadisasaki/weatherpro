@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+  transition: background 1s ease;
+  overflow-x: hidden;
+}
+
+.dark {
+  background: linear-gradient(to bottom, #0f2027, #203a43);
+}
+
+.light {
+  background: linear-gradient(to bottom, #0d6efd, #6ea8fe);
+}
+
+header {
+  padding: 15px;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+input, button {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+.card {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.2);
+}
+
+.forecast {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.forecast-day {
+  min-width: 100px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.2);
+}
+
+.radar {
+  height: 300px;
+  margin: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
