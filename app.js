@@ -35,6 +35,11 @@ function displayWeather(data) {
   });
 
   document.getElementById("forecast").innerHTML = html;
+  document.getElementById("widget").innerHTML = `
+  <h3>${l.name}</h3>
+  <h2>${c.temp_c}°C</h2>
+  <p>${c.condition.text}</p>
+`;
 }
 
 function setBackground(condition) {
