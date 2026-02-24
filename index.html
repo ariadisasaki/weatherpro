@@ -7,8 +7,6 @@
   <meta name="theme-color" content="#0d6efd">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
@@ -28,7 +26,6 @@
   <div id="widget" class="card"></div>
   <div id="currentWeather" class="card"></div>
   <div id="forecast" class="forecast"></div>
-
   <div class="radar">
     <div id="radarMap"></div>
   </div>
@@ -41,12 +38,14 @@
 <script src="radar.js"></script>
 <script src="app.js"></script>
 
-<footer class="footer">
-© <span id="year"></span><a href="https://www.facebook.com/share/1C8bjd7Xoh" target="_blank" rel="noopener noreferrer" class="developer-link"> ArDev</a>
+<footer>
+  <div class="footer-content">
+    © <span id="year"></span> Weather Pro by <a href="#" class="developer-link">ArDev</a>
+  </div>
 </footer>
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-  
+
 </body>
 </html>
