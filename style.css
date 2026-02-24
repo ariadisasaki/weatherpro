@@ -1,3 +1,4 @@
+/* Body & theme */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -6,15 +7,26 @@ body {
   overflow-x: hidden;
 }
 
+.dark { background: linear-gradient(to bottom, #0f2027, #203a43); }
+.light { background: linear-gradient(to bottom, #0d6efd, #6ea8fe); }
+
+/* Header & controls */
 header {
-  padding: 15px;
-  text-align: center;
-  position: relative;
-  z-index: 1001; /* PENTING supaya tombol bisa diklik */
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  padding: 12px 10px;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 8px;
 }
@@ -31,18 +43,108 @@ button {
   color: white;
 }
 
-button:hover {
-  background: rgba(255,255,255,0.4);
+button:hover { background: rgba(255,255,255,0.4); }
+
+/* Cards & forecast */
+main { padding: 10px; display: flex; flex-direction: column; gap: 15px; }
+
+.card {
+  width: 100%;
+  max-width: 450px;
+  margin: auto;
+  padding: 15px;
+  border-radius: 15px;
+  backdrop-filter: blur(8px);
+  background: rgba(255,255,255,0.15);
+  text-align: center;
 }
 
-/* Dark / Light theme */
-.dark { background: linear-gradient(to bottom, #0f2027, #203a43); }
-.light { background: linear-gradient(to bottom, #0d6efd, #6ea8fe); }
+.forecast {
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding-bottom: 10px;
+}
 
-/* Canvas */
+.forecast-day {
+  min-width: 90px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  padding: 8px;
+  text-align: center;
+}
+
+/* Radar map */
+.radar {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+#radarMap { height: 100%; width: 100%; }
+
+#radarControls {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(0,0,0,0.6);
+  border-radius: 10px;
+  padding: 8px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.legend span {
+  display: inline-block;
+  width: 15px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 3px;
+}
+
+/* Canvas hujan */
 canvas {
   position: fixed;
   top:0; left:0;
-  pointer-events: none; /* TIDAK menutupi klik tombol */
+  pointer-events: none;
   z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading */
+#loading {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  z-index: 2000;
+  display: none;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 12px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-size: 12px;
+  margin-top: 15px;
 }
