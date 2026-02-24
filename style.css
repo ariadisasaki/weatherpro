@@ -72,3 +72,31 @@ canvas {
   left: 0;
   pointer-events: none;
 }
+
+#radarControls {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  padding: 10px;
+  border-radius: 12px;
+  color: white;
+  font-size: 12px;
+}
+
+#radarControls button {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+}
+
+#radarControls input[type=range] {
+  width: 100%;
+}
+
+.legend span {
+  display: inline-block;
+  width: 15px;
+  height: 10px;
+  margin: 0 3px;
+}
