@@ -15,8 +15,8 @@
   <h1>🌤 Weather Pro</h1>
   <div class="controls">
     <input type="text" id="cityInput" placeholder="Cari kota...">
-    <button onclick="searchCity()">🔍</button>
-    <button onclick="toggleLang()">🌐</button>
+    <button id="searchBtn">🔍</button>
+    <button id="langBtn">🌐</button>
   </div>
 </header>
 
@@ -26,17 +26,13 @@
   <div id="widget" class="card"></div>
   <div id="currentWeather" class="card"></div>
   <div id="forecast" class="forecast"></div>
+
   <div class="radar">
     <div id="radarMap"></div>
   </div>
 </main>
 
 <canvas id="weatherCanvas"></canvas>
-
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="radar.js"></script>
-<script src="app.js"></script>
 
 <footer>
 <div class="footer-content">
@@ -46,6 +42,11 @@
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="radar.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
