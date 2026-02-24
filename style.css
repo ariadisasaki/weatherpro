@@ -117,17 +117,13 @@ canvas {
 }
 
 footer {
-  background: transparent;   /* tidak ada background */
+  background: transparent;   /* tanpa background */
   color: #ffffff;
   text-align: center;
-  padding: 30px 15px;        /* tambah padding agar tidak menempel */
+  padding: 30px 15px 50px;   /* atas kanan-kiri bawah */
   font-size: 13px;
-  margin-top: 40px;          /* beri jarak dari konten atas */
-  line-height: 1.6;          /* agar teks lebih lega */
-}
-
-footer {
-  padding-bottom: 50px;
+  margin-top: 40px;
+  line-height: 1.6;
 }
 
 footer .footer-content {
@@ -136,19 +132,20 @@ footer .footer-content {
 }
 
 footer .footer-links {
-  margin-top: 5px;
+  margin-top: 8px;
   display: flex;
   justify-content: center;
   gap: 15px;
   flex-wrap: wrap;
 }
 
+/* LINK WARNA KUNING */
 footer .footer-links a {
-  color: #fff;
+  color: #ffd700;            /* kuning emas */
   text-decoration: none;
-  transition: color 0.3s;
+  transition: 0.3s ease;
 }
 
 footer .footer-links a:hover {
-  color: #ffd700;
+  color: #ffcc00;            /* sedikit lebih terang saat hover */
 }
