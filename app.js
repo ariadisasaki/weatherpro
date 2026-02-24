@@ -7,13 +7,10 @@ let animationId = null;
 function showLoading(){ document.getElementById("loading").style.display="block"; }
 function hideLoading(){ document.getElementById("loading").style.display="none"; }
 
-// Fungsi toggle bahasa (HARUS function BIASA, bukan const/arrow)
-function toggleLang(){
-  currentLang = currentLang==="id"?"en":"id";
-  searchCity();
-}
+// Toggle bilingual
+function toggleLang(){ currentLang = currentLang==="id"?"en":"id"; searchCity(); }
 
-// Lokasi user
+// Geolocation
 navigator.geolocation.getCurrentPosition(
   pos => getWeather(`${pos.coords.latitude},${pos.coords.longitude}`),
   () => getWeather("Jakarta")
