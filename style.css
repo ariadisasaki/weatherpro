@@ -55,9 +55,15 @@ input, button {
 
 .radar {
   height: 300px;
+  width: 100%;
   margin: 20px;
   border-radius: 20px;
   overflow: hidden;
+}
+
+#radarMap {
+  height: 100%;
+  width: 100%;
 }
 
 canvas {
