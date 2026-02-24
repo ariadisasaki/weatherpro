@@ -2,22 +2,41 @@ const API_KEY = "9e537837d4fd4f8b90172312262402";
 const BASE_URL = "https://api.weatherapi.com/v1/forecast.json?days=7&aqi=no&alerts=no";
 
 let currentLang = "id";
+let map = null;
+let animationId = null;
 
 async function getWeather(query) {
-  const res = await fetch(`${BASE_URL}&key=${API_KEY}&q=${query}&lang=${currentLang}`);
-  const data = await res.json();
-  displayWeather(data);
-  setBackground(data.current.condition.text);
-  setTheme(data.location.localtime);
-  initRadar(data.location.lat, data.location.lon);
+  try {
+    const res = await fetch(`${BASE_URL}&key=${API_KEY}&q=${query}&lang=${currentLang}`);
+    const data = await res.json();
+
+    if (data.error) {
+      alert("Kota tidak ditemukan");
+      return;
+    }
+
+    displayWeather(data);
+    setTheme(data.location.localtime);
+    setBackground(data.current.condition.text);
+    initRadar(data.location.lat, data.location.lon);
+
+  } catch (err) {
+    alert("Gagal mengambil data cuaca");
+  }
 }
 
 function displayWeather(data) {
   const c = data.current;
   const l = data.location;
 
+  document.getElementById("widget").innerHTML = `
+    <h3>${l.name}</h3>
+    <h2>${c.temp_c}°C</h2>
+    <p>${c.condition.text}</p>
+  `;
+
   document.getElementById("currentWeather").innerHTML = `
-    <h2>${l.name}</h2>
+    <h2>${l.name}, ${l.country}</h2>
     <img src="https:${c.condition.icon}">
     <h1>${c.temp_c}°C</h1>
     <p>${c.condition.text}</p>
@@ -35,23 +54,12 @@ function displayWeather(data) {
   });
 
   document.getElementById("forecast").innerHTML = html;
-  document.getElementById("widget").innerHTML = `
-  <h3>${l.name}</h3>
-  <h2>${c.temp_c}°C</h2>
-  <p>${c.condition.text}</p>
-`;
-}
-
-function setBackground(condition) {
-  if(condition.toLowerCase().includes("rain")) {
-    rainAnimation();
-  } else if(condition.toLowerCase().includes("sun")) {
-    clearAnimation();
-  }
 }
 
 function setTheme(localtime) {
   const hour = parseInt(localtime.split(" ")[1].split(":")[0]);
+  document.body.classList.remove("dark", "light");
+
   if(hour >= 18 || hour < 6) {
     document.body.classList.add("dark");
   } else {
@@ -59,9 +67,12 @@ function setTheme(localtime) {
   }
 }
 
-function toggleLang() {
-  currentLang = currentLang === "id" ? "en" : "id";
-  searchCity();
+function setBackground(condition) {
+  clearAnimation();
+
+  if(condition.toLowerCase().includes("rain")) {
+    rainAnimation();
+  }
 }
 
 function searchCity() {
@@ -69,20 +80,64 @@ function searchCity() {
   if(city) getWeather(city);
 }
 
+function toggleLang() {
+  currentLang = currentLang === "id" ? "en" : "id";
+  searchCity();
+}
+
 navigator.geolocation.getCurrentPosition(pos => {
   getWeather(`${pos.coords.latitude},${pos.coords.longitude}`);
 });
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
+/* =====================
+   RADAR MAP STABLE
+===================== */
+function initRadar(lat, lon) {
+
+  const container = document.getElementById("radarMap");
+  container.innerHTML = "";
+
+  if (map) {
+    map.remove();
+    map = null;
+  }
+
+  map = L.map("radarMap").setView([lat, lon], 6);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18
+  }).addTo(map);
+
+  L.tileLayer(
+    "https://tilecache.rainviewer.com/v2/radar/latest/256/{z}/{x}/{y}/2/1_1.png",
+    { opacity: 0.6 }
+  ).addTo(map);
+
+  L.marker([lat, lon]).addTo(map);
+
+  setTimeout(() => {
+    map.invalidateSize(true);
+  }, 400);
 }
 
+window.addEventListener("resize", () => {
+  if (map) {
+    setTimeout(() => map.invalidateSize(true), 200);
+  }
+});
+
+/* =====================
+   RAIN ANIMATION SAFE
+===================== */
 const canvas = document.getElementById("weatherCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 function rainAnimation() {
+
+  if (animationId) cancelAnimationFrame(animationId);
+
   let drops = [];
   for(let i=0;i<200;i++){
     drops.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height});
@@ -96,11 +151,19 @@ function rainAnimation() {
       d.y+=10;
       if(d.y>canvas.height)d.y=0;
     });
-    requestAnimationFrame(draw);
+    animationId = requestAnimationFrame(draw);
   }
   draw();
 }
 
 function clearAnimation(){
+  if (animationId) cancelAnimationFrame(animationId);
   ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+/* =====================
+   PWA
+===================== */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
 }
