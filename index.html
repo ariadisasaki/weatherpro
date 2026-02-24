@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#0d6efd">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 </head>
 <body>
@@ -14,9 +15,9 @@
 <header>
   <h1>🌤 Weather Pro</h1>
   <div class="controls">
-  <input type="text" id="cityInput" placeholder="Cari kota...">
-  <button id="searchBtn">🔍</button>
-  <button id="langBtn">🌐</button>
+    <input type="text" id="cityInput" placeholder="Cari kota...">
+    <button id="searchBtn">🔍</button>
+    <button id="langBtn">🌐</button>
   </div>
 </header>
 
@@ -34,19 +35,17 @@
 
 <canvas id="weatherCanvas"></canvas>
 
-<footer>
-<div class="footer-content">
-© <span id="year"></span><a href="https://www.facebook.com/share/1C8bjd7Xoh" target="_blank" rel="noopener noreferrer" class="developer-link">ArDev</a>
-</div>
-</footer>
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="radar.js"></script>
 <script src="app.js"></script>
+
+<footer>
+  © <span id="year"></span> <a href="https://www.facebook.com/share/1C8bjd7Xoh" target="_blank" rel="noopener noreferrer">ArDev</a>
+</footer>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
