@@ -6,17 +6,11 @@ body {
   overflow-x: hidden;
 }
 
-.dark {
-  background: linear-gradient(to bottom, #0f2027, #203a43);
-}
-
-.light {
-  background: linear-gradient(to bottom, #0d6efd, #6ea8fe);
-}
-
 header {
   padding: 15px;
   text-align: center;
+  position: relative;
+  z-index: 1001; /* PENTING supaya tombol bisa diklik */
 }
 
 .controls {
@@ -29,125 +23,26 @@ input, button {
   padding: 8px;
   border-radius: 8px;
   border: none;
+  cursor: pointer;
 }
 
-.card {
-  margin: 20px;
-  padding: 20px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
+button {
   background: rgba(255,255,255,0.2);
+  color: white;
 }
 
-.forecast {
-  display: flex;
-  overflow-x: auto;
-  padding: 10px;
+button:hover {
+  background: rgba(255,255,255,0.4);
 }
 
-.forecast-day {
-  min-width: 100px;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 15px;
-  background: rgba(255,255,255,0.2);
-}
+/* Dark / Light theme */
+.dark { background: linear-gradient(to bottom, #0f2027, #203a43); }
+.light { background: linear-gradient(to bottom, #0d6efd, #6ea8fe); }
 
-.radar {
-  height: 350px;
-  width: 100%;
-  margin: 20px auto;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-}
-
-#radarMap {
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
-
+/* Canvas */
 canvas {
   position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+  top:0; left:0;
+  pointer-events: none; /* TIDAK menutupi klik tombol */
   z-index: 0;
-}
-
-#radarControls {
-  position: absolute;
-  bottom: 5px;
-  left: 5px;
-  right: 5px;
-  background: rgba(0,0,0,0.75);
-  padding: 8px;
-  border-radius: 10px;
-  color: white;
-  font-size: 11px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  font-size: 10px;
-}
-
-.legend span {
-  display: inline-block;
-  width: 15px;
-  height: 10px;
-  margin-right: 5px;
-  border-radius: 3px;
-}
-
-#loading {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  z-index: 2000;
-  display: none;
-}
-
-footer {
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  text-align: center;
-  padding: 15px 10px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  font-size: 13px;
-  position: relative;
-  z-index: 1000;
-  margin-top: 20px;
-}
-
-footer .footer-content {
-  max-width: 800px;
-  margin: auto;
-}
-
-footer .footer-links {
-  margin-top: 5px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-footer .footer-links a {
-  color: #fff;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-footer .footer-links a:hover {
-  color: #ffd700;
 }
