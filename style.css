@@ -46,17 +46,18 @@ button {
 button:hover { background: rgba(255,255,255,0.4); }
 
 /* Cards & forecast */
-main { padding: 10px; display: flex; flex-direction: column; gap: 15px; }
+main {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 480px;  /* supaya sama lebar dengan peta di HP */
+  margin: auto;       /* center di layar kecil */
+}
 
 .card {
-  width: 100%;
-  max-width: 450px;
-  margin: auto;
-  padding: 15px;
-  border-radius: 15px;
-  backdrop-filter: blur(8px);
-  background: rgba(255,255,255,0.15);
-  text-align: center;
+  width: 100%;        /* pastikan tidak overflow */
+  box-sizing: border-box;
 }
 
 .forecast {
@@ -64,15 +65,7 @@ main { padding: 10px; display: flex; flex-direction: column; gap: 15px; }
   overflow-x: auto;
   gap: 8px;
   padding-bottom: 10px;
-}
-
-.forecast-day {
-  min-width: 90px;
-  flex: 0 0 auto;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.15);
-  padding: 8px;
-  text-align: center;
+  width: 100%;        /* sesuaikan dengan container */
 }
 
 /* Radar map */
