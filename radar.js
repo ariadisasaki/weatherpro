@@ -1,5 +1,5 @@
 // =====================
-// RADAR.JS - MAP & LEGEND
+// RADAR.JS - MAP & LEGEND RESPONSIVE
 // =====================
 
 let map;  // hanya satu map global
@@ -25,7 +25,9 @@ async function initRadar(lat, lon) {
   // Ambil data radar
   const res = await fetch("https://api.rainviewer.com/public/weather-maps.json");
   const data = await res.json();
-  const frames = data.radar.past.slice(-10);
+
+  // Kurangi frame di HP
+  const frames = window.innerWidth < 768 ? data.radar.past.slice(-5) : data.radar.past.slice(-10);
 
   radarLayers = [];
   frames.forEach(frame => {
@@ -65,12 +67,15 @@ function toggleAnimation() {
   else startAnimation();
 }
 
+// =====================
+// CONTROLS LEGEND RESPONSIVE
+// =====================
 function createControls(frames) {
   const controls = document.createElement("div");
   controls.id = "radarControls";
   controls.innerHTML = `
     <button onclick="toggleAnimation()">⏯</button>
-    <input type="range" min="0" max="${frames.length-1}" value="0" id="timeline">
+    <input type="range" min="0" max="${frames.length - 1}" value="0" id="timeline">
     <div class="legend">
       <span style="background:lime"></span> Ringan
       <span style="background:yellow"></span> Sedang
@@ -78,7 +83,6 @@ function createControls(frames) {
       <span style="background:red"></span> Sangat Lebat
     </div>
   `;
-
   document.getElementById("radarMap").appendChild(controls);
 
   const slider = document.getElementById("timeline");
