@@ -174,3 +174,8 @@ installBtn.addEventListener("click", async () => {
 window.addEventListener("appinstalled", () => {
   installBtn.hidden = true;
 });
+
+window.addEventListener("appinstalled", () => {
+  console.log("Aplikasi berhasil diinstall");
+  installBtn.style.display = "none";
+});
