@@ -196,9 +196,11 @@ footer a:hover {
   cursor:pointer;
   font-size:13px;
 
+  width:auto;          /* lebar mengikuti teks */
+  flex:0 0 auto;       /* mencegah ikut melebar di flexbox */
   display:block;
-  width:auto;
-  margin:8px auto; /* membuat tombol center */
+  margin:8px auto;     /* center */
+  white-space:nowrap;  /* teks tidak turun */
 }
 
 .install-btn:hover{
