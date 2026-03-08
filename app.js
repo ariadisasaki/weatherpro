@@ -144,38 +144,45 @@ window.addEventListener("resize",()=>{
   canvas.height=window.innerHeight;
 });
 
-let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
+let deferredPrompt;
 
-window.addEventListener("beforeinstallprompt", (e) => {
+// Hide tombol jika sudah diinstall
+function checkIfInstalled() {
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    installBtn.hidden = true;
+  }
+}
+checkIfInstalled();
+
+// Event sebelum install muncul
+window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
   installBtn.hidden = false;
 });
 
-installBtn.addEventListener("click", async () => {
+// Klik tombol install
+installBtn.addEventListener('click', async () => {
   installBtn.hidden = true;
 
   if (deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
 
-    if (outcome === "accepted") {
-      console.log("Aplikasi diinstall");
+    if (outcome === 'accepted') {
+      console.log('User menginstall aplikasi');
     } else {
-      console.log("Install dibatalkan");
+      console.log('User batal install');
     }
 
     deferredPrompt = null;
   }
 });
 
-window.addEventListener("appinstalled", () => {
+// Event ketika aplikasi diinstall
+window.addEventListener('appinstalled', () => {
+  console.log('Aplikasi berhasil diinstall');
   installBtn.hidden = true;
-});
-
-window.addEventListener("appinstalled", () => {
-  console.log("Aplikasi berhasil diinstall");
-  installBtn.style.display = "none";
 });
